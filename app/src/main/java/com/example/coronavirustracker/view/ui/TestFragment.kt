@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.coronavirustracker.model.ViewPager2Fragments
+import com.example.coronavirustracker.data.model.ViewPager2Fragments
 
 class TestFragment(val position: Int) : Fragment() {
     override fun onCreateView(

@@ -3,4 +3,5 @@
     <string name="map">Map</string>
     <string name="chart">Chart</string>
     <string name="news">News</string>
+    <string name="overview">Overview</string>
 </resources>

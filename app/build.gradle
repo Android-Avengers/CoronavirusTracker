@@ -22,6 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    // Retrofit
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -41,4 +46,10 @@ dependencies {
     implementation "com.google.android.material:material:1.2.0-alpha06"
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    // Retrofit GSON Converter Factory
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+    // Event Bus
+    implementation 'org.greenrobot:eventbus:3.2.0'
 }
