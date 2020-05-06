@@ -35,6 +35,7 @@ internal class OverviewFragment( val position: Int) : Fragment() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 pbSearch.visibility = View.VISIBLE
+                Log.d("TAG-QUERY", query)
                 retrofitHelper.startJHURequest(query)
                 return false
             }
@@ -54,15 +55,19 @@ internal class OverviewFragment( val position: Int) : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onJHUCountyResponse(jhuCountyResponse: List<JHUCountyResponse>) {
         pbSearch.visibility = View.INVISIBLE
-        tvCountyData.text = "Confirmed: ${jhuCountyResponse[0].stats.confirmed} \n" +
-                "Deaths: ${jhuCountyResponse[0].stats.deaths} \n" +
-                "Recovered: ${jhuCountyResponse[0].stats.recovered} \n"
+        tvCountyData.visibility = View.INVISIBLE
+        svCountyData.visibility = View.VISIBLE
+        tvCountyConfirmed.text = "${jhuCountyResponse[0].stats.confirmed}"
+//        tvCountyData.text = "Confirmed: ${jhuCountyResponse[0].stats.confirmed} \n" +
+//                "Deaths: ${jhuCountyResponse[0].stats.deaths} \n" +
+//                "Recovered: ${jhuCountyResponse[0].stats.recovered} \n"
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onJHUCountyFailResponse(t: Throwable) {
         pbSearch.visibility = View.INVISIBLE
-        tvCountyData.text = "Issue with Network Request. Please try again."
+        svCountyData.visibility = View.INVISIBLE
+        tvCountyData.visibility = View.VISIBLE
         Log.d("TAG-Network", "FAILURE NETWORK: $t")
     }
 }
