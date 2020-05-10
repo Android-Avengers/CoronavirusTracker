@@ -58,6 +58,9 @@ internal class OverviewFragment( val position: Int) : Fragment() {
         tvCountyData.visibility = View.INVISIBLE
         svCountyData.visibility = View.VISIBLE
         tvCountyConfirmed.text = "${jhuCountyResponse[0].stats.confirmed}"
+        tvCountyDeaths.text = "${jhuCountyResponse[0].stats.deaths}"
+        tvCountyRecovered.text = "${jhuCountyResponse[0].stats.recovered}"
+        tvLastUpdated.text = "Last Updated: ${jhuCountyResponse[0].updatedAt}"
 //        tvCountyData.text = "Confirmed: ${jhuCountyResponse[0].stats.confirmed} \n" +
 //                "Deaths: ${jhuCountyResponse[0].stats.deaths} \n" +
 //                "Recovered: ${jhuCountyResponse[0].stats.recovered} \n"
