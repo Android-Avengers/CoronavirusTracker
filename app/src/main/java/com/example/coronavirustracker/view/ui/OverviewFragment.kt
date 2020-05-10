@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 internal class OverviewFragment( val position: Int) : Fragment() {
-    val retrofitHelper by lazy { RetrofitHelper() }
+    val retrofitHelper by lazy { RetrofitHelper }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,8 +26,16 @@ internal class OverviewFragment( val position: Int) : Fragment() {
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
+    fun testEndPoints() {
+        retrofitHelper.startJHUHistoricalCountyRequest("asdf")
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        // TODO: Remove after finished testing
+        testEndPoints()
+
         svCountySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
@@ -36,7 +44,7 @@ internal class OverviewFragment( val position: Int) : Fragment() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 pbSearch.visibility = View.VISIBLE
                 Log.d("TAG-QUERY", query)
-                retrofitHelper.startJHURequest(query)
+                retrofitHelper.startJHUCountyRequest(query)
                 return false
             }
         })
