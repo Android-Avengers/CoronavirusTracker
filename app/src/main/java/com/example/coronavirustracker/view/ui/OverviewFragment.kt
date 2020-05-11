@@ -26,16 +26,8 @@ internal class OverviewFragment( val position: Int) : Fragment() {
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
-    fun testEndPoints() {
-        retrofitHelper.startJHUHistoricalCountyRequest("asdf")
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        // TODO: Remove after finished testing
-        testEndPoints()
-
         svCountySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 return false
@@ -60,6 +52,7 @@ internal class OverviewFragment( val position: Int) : Fragment() {
         EventBus.getDefault().unregister((this))
     }
 
+    // event bus passes data here on available states
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onJHUCountyResponse(jhuCountyResponse: List<JHUCountyResponse>) {
         pbSearch.visibility = View.INVISIBLE
@@ -69,9 +62,6 @@ internal class OverviewFragment( val position: Int) : Fragment() {
         tvCountyDeaths.text = "${jhuCountyResponse[0].stats.deaths}"
         tvCountyRecovered.text = "${jhuCountyResponse[0].stats.recovered}"
         tvLastUpdated.text = "Last Updated: ${jhuCountyResponse[0].updatedAt}"
-//        tvCountyData.text = "Confirmed: ${jhuCountyResponse[0].stats.confirmed} \n" +
-//                "Deaths: ${jhuCountyResponse[0].stats.deaths} \n" +
-//                "Recovered: ${jhuCountyResponse[0].stats.recovered} \n"
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

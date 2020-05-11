@@ -40,9 +40,25 @@ object RetrofitHelper {
     private val jhuHistoricalService: JHUHistoricalService by lazy {
         jhuHistoricalRetrofit.create(JHUHistoricalService::class.java) }
 
-    fun startJHUCountyRequest(location: String) {
+//    fun startJHUCountriesRequest() {
+//        jhuService
+//            .getJHUCountries()
+//            .enqueue(object: Callback<List<JHUCountriesResponse>> {
+//                override fun onResponse(call: Call<List<JHUCountriesResponse>>, response: Response<List<JHUCountriesResponse>>) {
+//                    EventBus.getDefault().post(response.body())
+//                    Log.d("TAG-response:", ""+response.body())
+//                }
+//
+//                override fun onFailure(call: Call<List<JHUCountriesResponse>>, t: Throwable) {
+//                    EventBus.getDefault().post(t)
+//                    Log.e("TAG", "ERROR IN RETROFIT --> ", t)
+//                }
+//            })
+//    }
+
+    fun startJHUCountiesRequest() {
         jhuService
-            .getJHUByCounty(location)
+            .getJHUCounties()
             .enqueue(object: Callback<List<JHUCountyResponse>> {
                 override fun onResponse(call: Call<List<JHUCountyResponse>>, response: Response<List<JHUCountyResponse>>) {
                     EventBus.getDefault().post(response.body())
@@ -56,21 +72,99 @@ object RetrofitHelper {
             })
     }
 
-    fun startJHUHistoricalCountyRequest(state: String, lastDays: String? = null) {
-        jhuHistoricalService
-            .getJHUCountyByState(state, lastDays)
-            .enqueue(object: Callback<List<JHUHistoricalCountyResponse>> {
-                override fun onResponse(call: Call<List<JHUHistoricalCountyResponse>>, response: Response<List<JHUHistoricalCountyResponse>>) {
-//                    EventBus.getDefault().post(response.body())
-                    val res = response.body() // null on unknown state
-//                    Log.d("TAG-CASES", ""+res.timeline.cases["5/9/20"]) // 92
-                    Log.d("TAG-HISTORICAL", ""+res) // 92
+    fun startJHUCountyRequest(location: String) {
+        jhuService
+            .getJHUCounty(location)
+            .enqueue(object: Callback<List<JHUCountyResponse>> {
+                override fun onResponse(call: Call<List<JHUCountyResponse>>, response: Response<List<JHUCountyResponse>>) {
+                    EventBus.getDefault().post(response.body())
+                    Log.d("TAG-response:", ""+response.body())
                 }
 
-                override fun onFailure(call: Call<List<JHUHistoricalCountyResponse>>, t: Throwable) {
-//                    EventBus.getDefault().post(t)
+                override fun onFailure(call: Call<List<JHUCountyResponse>>, t: Throwable) {
+                    EventBus.getDefault().post(t)
                     Log.e("TAG", "ERROR IN RETROFIT --> ", t)
                 }
             })
     }
+
+//    fun startJHUHistoricalAllCountriesRequest(lastDays: String? = null) {
+//        jhuHistoricalService
+//            .getJHUHistoricalAllCountries(lastDays)
+//            .enqueue(object: Callback<List<JHUHistoricalCountryResponse>> {
+//                override fun onResponse(call: Call<List<JHUHistoricalCountryResponse>>, response: Response<List<JHUHistoricalCountryResponse>>) {
+//                    EventBus.getDefault().post(response.body())
+//                    Log.d("TAG-HISTORICAL", ""+response.body())
+//                }
+//
+//                override fun onFailure(call: Call<List<JHUHistoricalCountryResponse>>, t: Throwable) {
+//                    EventBus.getDefault().post(t)
+//                    Log.e("TAG", "ERROR IN RETROFIT --> ", t)
+//                }
+//            })
+//    }
+
+//    fun startJHUHistoricalAvailableStates() {
+//        jhuHistoricalService
+//            .getJHUHistoricalAvailableStates()
+//            .enqueue(object: Callback<List<String>> {
+//                override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+//                    EventBus.getDefault().post(response.body())
+//                    Log.d("TAG-HISTORICAL", ""+response.body())
+//                }
+//
+//                override fun onFailure(call: Call<List<String>>, t: Throwable) {
+//                    EventBus.getDefault().post(t)
+//                    Log.e("TAG", "ERROR IN RETROFIT --> ", t)
+//                }
+//            })
+//    }
+
+    fun startJHUHistoricalCountiesByStateRequest(state: String, lastDays: String? = null) {
+        jhuHistoricalService
+            .getJHUHistoricalCountiesByState(state, lastDays)
+            .enqueue(object: Callback<List<JHUHistoricalCountyResponse>> {
+                override fun onResponse(call: Call<List<JHUHistoricalCountyResponse>>, response: Response<List<JHUHistoricalCountyResponse>>) {
+                    EventBus.getDefault().post(response.body())
+                    Log.d("TAG-HISTORICAL", ""+response.body())
+                }
+
+                override fun onFailure(call: Call<List<JHUHistoricalCountyResponse>>, t: Throwable) {
+                    EventBus.getDefault().post(t)
+                    Log.e("TAG", "ERROR IN RETROFIT --> ", t)
+                }
+            })
+    }
+
+//    fun startJHUHistoricalCountryByName(country: String, lastDays: String? = null) {
+//        jhuHistoricalService
+//            .getJHUHistoricalCountryByName(country, lastDays)
+//            .enqueue(object: Callback<List<JHUHistoricalCountryResponse>> {
+//                override fun onResponse(call: Call<List<JHUHistoricalCountryResponse>>, response: Response<List<JHUHistoricalCountryResponse>>) {
+//                    EventBus.getDefault().post(response.body())
+//                    Log.d("TAG-HISTORICAL", ""+response.body())
+//                }
+//
+//                override fun onFailure(call: Call<List<JHUHistoricalCountryResponse>>, t: Throwable) {
+//                    EventBus.getDefault().post(t)
+//                    Log.e("TAG", "ERROR IN RETROFIT --> ", t)
+//                }
+//            })
+//    }
+
+//    fun startJHUHistoricalAll(lastDays: String? = null) {
+//        jhuHistoricalService
+//            .getJHUHistoricalAll(lastDays)
+//            .enqueue(object: Callback<Timeline> {
+//                override fun onResponse(call: Call<Timeline>, response: Response<Timeline>) {
+//                    EventBus.getDefault().post(response.body())
+//                    Log.d("TAG-HISTORICAL", ""+response.body())
+//                }
+//
+//                override fun onFailure(call: Call<Timeline>, t: Throwable) {
+//                    EventBus.getDefault().post(t)
+//                    Log.e("TAG", "ERROR IN RETROFIT --> ", t)
+//                }
+//            })
+//    }
 }
