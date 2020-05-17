@@ -8,14 +8,9 @@ import org.junit.Test
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class CustomUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
-
-    @Test
-    fun subtraction_isCorrect() {
-        assertEquals(4, 2 - 2)
+    fun custom_add_isCorrect() {
+        assertEquals(1, 2 + 2)
     }
 }
