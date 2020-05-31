@@ -6,14 +6,17 @@ import androidx.room.Query
 import com.example.coronavirustracker.data.model.JHUCountyResponse
 
 @Dao
-interface CountryDAO {
-
+interface CountyDao {
     @Insert
-    fun adAll(country : JHUCountyResponse)
+    fun insert(county: JHUCountyResponse)
+
+    // retrieve by county name
+    @Query("SELECT * FROM JHUCountyResponse LIMIT 1")
+    fun getFirst() : JHUCountyResponse
 
     @Query("SELECT * FROM JHUCountyResponse")
     fun getAll() : List<JHUCountyResponse>
 
-    @Insert
-    fun addMultiple(vararg country : JHUCountyResponse)
+    @Query("DELETE FROM JHUCountyResponse")
+    fun deleteAll()
 }

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.coronavirustracker.R
 import com.example.coronavirustracker.data.model.JHUCountyResponse
 import com.example.coronavirustracker.data.remote.retrofit.RetrofitHelper
+import com.example.coronavirustracker.data.roomdb.CountyRepository
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -36,7 +37,9 @@ internal class OverviewFragment( val position: Int) : Fragment() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 pbSearch.visibility = View.VISIBLE
                 Log.d("TAG-QUERY", query)
-                retrofitHelper.startJHURequest(query)
+//                retrofitHelper.startJHURequest(query)
+                CountyRepository(activity!!.applicationContext).getCounty(query)
+
                 return false
             }
         })
@@ -58,9 +61,9 @@ internal class OverviewFragment( val position: Int) : Fragment() {
         tvCountyData.visibility = View.INVISIBLE
         svCountyData.visibility = View.VISIBLE
         tvCountyConfirmed.text = "${jhuCountyResponse[0].stats.confirmed}"
-//        tvCountyData.text = "Confirmed: ${jhuCountyResponse[0].stats.confirmed} \n" +
-//                "Deaths: ${jhuCountyResponse[0].stats.deaths} \n" +
-//                "Recovered: ${jhuCountyResponse[0].stats.recovered} \n"
+        tvCountyData.text = "Confirmed: ${jhuCountyResponse[0].stats.confirmed} \n" +
+                "Deaths: ${jhuCountyResponse[0].stats.deaths} \n" +
+                "Recovered: ${jhuCountyResponse[0].stats.recovered} \n"
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

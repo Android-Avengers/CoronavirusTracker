@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Coordinates(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val latitude: String,
     val longitude: String
 )
