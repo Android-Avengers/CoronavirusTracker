@@ -13,20 +13,19 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CountyRepository(applicationContext: Context){
-    val retrofitHelper = RetrofitHelper()
-    val db = AppDatabase.getDatabase(applicationContext)
+    private val retrofitHelper by lazy { RetrofitHelper() }
+    private val db  by lazy { AppDatabase.getDatabase(applicationContext) }
 
-    fun getCounty(location: String) {
-        // TODO: possible to run immediately?
+    fun getCounty(county: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            var data: JHUCountyResponse? = retrieve()
+            var data: JHUCountyResponse? = get(county)
             if (data != null) {
-                Log.d("TAG-REP", "data found in the database here you go")
-                EventBus.getDefault().post(data)
+                Log.d("TAG-REP", "Data found in database")
+                EventBus.getDefault().post(arrayListOf(data))
             } else {
-                Log.d("TAG-REP", "no data found lets get it from the network")
+                Log.d("TAG-REP", "No data found in database, making network call")
                 retrofitHelper.getJHUByCounty()
-                    .getJHUByCounty(location)
+                    .getJHUByCounty(county)
                     .enqueue(object : Callback<List<JHUCountyResponse>> {
                         override fun onResponse(
                             call: Call<List<JHUCountyResponse>>,
@@ -34,9 +33,9 @@ class CountyRepository(applicationContext: Context){
                         ) {
                             EventBus.getDefault().post(response.body())
                             CoroutineScope(Dispatchers.IO).launch {
-                                insert(response.body()?.get(0))
+                                upsert(response.body()?.get(0))
                             }
-                            Log.d("TAG-response:", "" + response.body())
+                            Log.d("TAG-Response:", "" + response.body())
                         }
 
                         override fun onFailure(call: Call<List<JHUCountyResponse>>, t: Throwable) {
@@ -45,21 +44,19 @@ class CountyRepository(applicationContext: Context){
                         }
                     })
             }
-
         }
-
-//        return db value
     }
 
-    fun insert(county: JHUCountyResponse?) {
-        county?.let { db.countyDao().insert(county) }
+    // Update or insert
+    suspend fun upsert(county: JHUCountyResponse?) {
+        county?.let { db.countyDao().upsert(county) }
     }
 
-    fun retrieve(): JHUCountyResponse {
-        return db.countyDao().getFirst()
+    suspend fun get(county: String): JHUCountyResponse {
+        return db.countyDao().get(county)
     }
 
-    fun deleteAll() {
+    suspend fun deleteAll() {
         return db.countyDao().deleteAll()
     }
 }

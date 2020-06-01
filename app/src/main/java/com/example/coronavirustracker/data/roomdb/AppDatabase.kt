@@ -6,11 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.coronavirustracker.data.model.JHUCountyResponse
 
-//@Database(entities = arrayOf(TodoEntity::class), version = 1)
-//abstract class AppDatabase : RoomDatabase() {
-//    abstract fun todoDao(): TodoDao
-//}
-
 @Database(entities = arrayOf(JHUCountyResponse::class), version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun countyDao(): CountyDao

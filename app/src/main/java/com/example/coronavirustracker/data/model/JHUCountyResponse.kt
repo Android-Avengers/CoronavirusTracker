@@ -7,14 +7,12 @@ import androidx.room.PrimaryKey
 @Entity
 data class JHUCountyResponse(
     @PrimaryKey
-    val id: Int,
+    val country: String,
     @Embedded
     val coordinates: Coordinates,
-    val country: String,
     val county: String,
     val province: String,
     @Embedded
     val stats: Stats,
     val updatedAt: String
-
 )

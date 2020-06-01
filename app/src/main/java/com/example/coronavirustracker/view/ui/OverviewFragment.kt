@@ -34,12 +34,13 @@ internal class OverviewFragment( val position: Int) : Fragment() {
                 return false
             }
 
+            // NOTE: Submits twice on non emulator submit (i.e. enter on physical keyboard)
+            //       Issue may not arise in practice
             override fun onQueryTextSubmit(query: String): Boolean {
                 pbSearch.visibility = View.VISIBLE
                 Log.d("TAG-QUERY", query)
 //                retrofitHelper.startJHURequest(query)
-                CountyRepository(activity!!.applicationContext).getCounty(query)
-
+                activity?.let { CountyRepository(it.applicationContext).getCounty(query) }
                 return false
             }
         })
